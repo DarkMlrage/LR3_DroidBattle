@@ -2,6 +2,7 @@ import droid.Droid;
 import menu.*;
 
 import utilits.SaveFight;
+import utilits.ShowFight;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class Main {
                     SaveFight.save();
                     break;
                 case 6:
-
+                    ShowFight.show();
                     break;
                 case 7:
                     Start = false;
