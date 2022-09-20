@@ -34,6 +34,22 @@ public class TeamArena {
             printRoundInfo(actualDamage);
 
             TimeUnit.SECONDS.sleep(1);
+            if(!defender.isAlive()){
+                if(blueDroids.contains(defender)){
+                    for(Droid droid: blueDroids){
+                        if(droid.isAlive()){
+                            defender = droid;
+                        }
+                    }
+                }
+                else{
+                    for(Droid droid: redDroids){
+                        if(droid.isAlive()){
+                            defender = droid;
+                        }
+                    }
+                }
+            }
         } while (defender.isAlive());
 
         return attacker;
@@ -58,38 +74,23 @@ public class TeamArena {
 
     private void initFighters() {
         Random random = new Random();
-        Droid blue = blueDroids.get(random.nextInt(blueDroids.size()));
-        Droid red = redDroids.get(random.nextInt(redDroids.size()));
 
         if (random.nextBoolean()) {
-            if (!blue.isAlive()) {
-                while (!blue.isAlive()) {
-                    blue = blueDroids.get(random.nextInt(blueDroids.size()));
-                }
-            }
-            attacker = blue;
-
-            if (!red.isAlive()) {
-                while (!red.isAlive()) {
-                    red = redDroids.get(random.nextInt(redDroids.size()));
-                }
-            }
-            defender = red;
+            attacker = aliveFromTeam(blueDroids);
+            defender = aliveFromTeam(redDroids);
         } else {
-            if (!red.isAlive()) {
-                while (!red.isAlive()) {
-                    red = redDroids.get(random.nextInt(redDroids.size()));
-                }
-            }
-            attacker = red;
-
-            if (!blue.isAlive()) {
-                while (!blue.isAlive()) {
-                    blue = blueDroids.get(random.nextInt(blueDroids.size()));
-                }
-            }
-            defender = blue;
+            attacker = aliveFromTeam(redDroids);
+            defender = aliveFromTeam(blueDroids);
         }
+    }
+    private Droid aliveFromTeam(List<Droid> droidTeam) {
+        Random random = new Random();
+        Droid teammate = droidTeam.get(random.nextInt(droidTeam.size()));
+
+        while (!teammate.isAlive()) {
+            teammate = droidTeam.get(random.nextInt(droidTeam.size()));
+        }
+        return teammate;
     }
 
 }
